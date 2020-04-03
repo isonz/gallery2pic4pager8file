@@ -1,0 +1,9 @@
+.settings
+.buildpath
+.project
+.idea
+.DS_Store
+
+gallery-images/
+resources/cache
+.user.ini
