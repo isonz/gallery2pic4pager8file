@@ -580,7 +580,8 @@ class UberGallery {
                         if ($file != "." && $file != "..") {
 
                             // Get files real path
-                            $realPath = realpath($dir . '/' . $file);
+                            // $realPath = realpath($dir . '/' . $file);
+                            $realPath = $dir . '/' . $file;
 
                             // If file is an image, add info to array
                             if ($this->_isImage($realPath)) {
