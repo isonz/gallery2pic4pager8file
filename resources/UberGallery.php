@@ -570,7 +570,9 @@ class UberGallery {
             $dirArray = array();
 
             Files::explorerDir($directory);
-            foreach(Files::$dirs as $dir)
+            $dirs = Files::$dirs;
+            $dirs[] = $directory;
+            foreach($dirs as $dir)
             {
                 // Loop through directory and add information to array
                 if ($handle = opendir($dir)) {
