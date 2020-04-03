@@ -193,7 +193,9 @@ class UberGallery {
             foreach ($dirArray as $key => $image) {
 
                 // Get files relative path
-                $relativePath = $this->_rImgDir . '/' . $key;
+                // $relativePath = $this->_rImgDir . '/' . $key;
+                $relativePath = str_replace($_SERVER['DOCUMENT_ROOT'].'/', '', $image['real_path']);
+                // var_dump($relativePath);
 
                 $galleryArray['images'][htmlentities(pathinfo($image['real_path'], PATHINFO_BASENAME))] = array(
                     'file_title'   => str_replace('_', ' ', pathinfo($image['real_path'], PATHINFO_FILENAME)),
@@ -567,26 +569,31 @@ class UberGallery {
             // Initialize the array
             $dirArray = array();
 
-            // Loop through directory and add information to array
-            if ($handle = opendir($directory)) {
-                while (false !== ($file = readdir($handle))) {
-                    if ($file != "." && $file != "..") {
+            Files::explorerDir($directory);
+            foreach(Files::$dirs as $dir)
+            {
+                // Loop through directory and add information to array
+                if ($handle = opendir($dir)) {
+                    while (false !== ($file = readdir($handle))) {
+                        if ($file != "." && $file != "..") {
 
-                        // Get files real path
-                        $realPath = realpath($directory . '/' . $file);
+                            // Get files real path
+                            $realPath = realpath($dir . '/' . $file);
 
-                        // If file is an image, add info to array
-                        if ($this->_isImage($realPath)) {
-                            $dirArray[htmlentities(pathinfo($realPath, PATHINFO_BASENAME))] = array(
-                                'real_path' => $realPath
-                            );
+                            // If file is an image, add info to array
+                            if ($this->_isImage($realPath)) {
+                                $dirArray[htmlentities(pathinfo($realPath, PATHINFO_BASENAME))] = array(
+                                    'real_path' => $realPath
+                                );
+                            }
                         }
                     }
-                }
 
-                // Close open file handle
-                closedir($handle);
+                    // Close open file handle
+                    closedir($handle);
+                }
             }
+            // var_dump($dirArray);
 
             // Create directory array
             if ($this->isCachingEnabled()) {
