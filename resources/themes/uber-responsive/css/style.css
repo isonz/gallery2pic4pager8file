@@ -31,8 +31,3 @@
     z-index: 1;
     cursor: pointer;
 }
-
-#colorbox{
-    position: fixed !important;
-    top: 10px!important;
-}
